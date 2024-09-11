@@ -95,29 +95,8 @@ class Gemini:
     def get_conversational_chain(self):
         prompt_template = """
         Please provide the following information strictly in the format below:
-
-        Format:
-        NOI: <value>
-        Pro-Forma NOI: <value>
-        Rental: <value>
-        Total Expense: <value>
-        Total Revenue: <value>
-        Unit Occupancy: <value>
-        Economic Occupancy: <value>
-        SQFT Occupancy: <value>
-
-        Example Response:
-        NOI: $10,000
-        Pro-Forma NOI: $12,000
-        Rental: $5,000
-        Total Expense: $3,000
-        Total Revenue: $15,000
-        Unit Occupancy: 95%
-        Economic Occupancy: 90%
-        SQFT Occupancy: 85%
-
-        `Above format for response should not be violated.`
-
+        `Answer concisely and informatively, aiming to provide relevant values even if the exact key is not found. Use semantic understanding to match keys and values where possible. Avoid returning "Not Available" unless absolutely necessary. Ensure no key is left empty and present responses/output strictly in the format key without any additional characters.`
+        
         Context: \n{context}?\n
         Question: \n{question}\n
 
@@ -159,27 +138,6 @@ class Gemini:
             other.update_log.emit("Collecting Response...")
             
             question = """
-                        `Answer concisely and informatively, aiming to provide relevant values even if the exact key is not found. Use semantic understanding to match keys and values where possible. Avoid returning "Not Available" unless absolutely necessary. Ensure no key is left empty and present responses/output strictly in the format key without any additional characters.`
-
-                        Please provide answers to the following questions in the specified format key.
-                        NOI:<extracted value>
-                        Pro-Forma NOI:<extracted value>
-                        Rental:<extracted value>
-                        Total Expense:<extracted value>
-                        Total Revenue:<extracted value>
-                        Unit Occupancy:<extracted value>
-                        Economic Occupancy:<extracted value>
-                        SQFT Occupancy:<extracted value>
-
-                        Detailed Instructions for Extraction:
-                        - NOI (Net Operating Income): Look for any mention of "Net Operating Income" or similar financial metrics indicating income minus operating expenses.
-                        - Pro-Forma NOI: Search for projections or estimates of NOI, often labeled as "Pro-Forma NOI" or similar terms.
-                        - Rental: Identify references to rental income or revenue generated from renting properties.
-                        - Total Expense: Extract values related to overall expenses, costs, or outflows.
-                        - Total Revenue: Find total income, revenue, or earnings reported.
-                        - Unit Occupancy: Look for percentages or figures indicating the number of occupied units.
-                        - Economic Occupancy: Identify data on the income-producing occupancy rate.
-                        - SQFT Occupancy: Extract occupancy rates based on square footage.
                     """
             
             response_text = self.user_input(question)
@@ -234,7 +192,7 @@ class Gemini:
 
 
 if __name__ == "__main__":
-    gemini = Gemini('https://api.crexi.com/assets/1613114/offering-memorandum?access_token=CfDJ8BWNsBdynz9Nq28ACYuM-CKVTgh4eLPz_VNiMqiqDf6atqMkkjGhfSG_K6dejEuVj-J7hYmixk031wOse8G79jAli87cjvKzCJfs_6cmHghFdgDjJiF7bTyYUx2UZqRM20ViQrwb6WN-KREpZ5kGUUtKRHAIPqVnTE9U7cXBm7Kzq_9c4uWx2wmFkjEOQ9w6nfTfm_TK4VHzQ4AXvf2I5GoH28uLGtn40yvXURRRbOtadK6W0aGtmwOYCWo562Qt7TkYywGtnsGswpJ6JVG5c8Fvxh0xVPLi_rrvRUP6fmoPKSbQpJowdCWYNYDOFu-rgQhuCm0UX083W1tqDdJ1amqSmdeHHbJyUm0eAsVLWuqPvqxSdkkBaOGOG_IG0MBAnFko01QxhY7vHXCXlZqunL8GtgE3LloQOgbLekmdPL3I7FSs1NEP0S1PAA4k21g-4jQExoP8eoh3gpkyW0kHEbk', {}, '')
+    gemini = Gemini('<PDF.pdf>', {}, '')
     
     print(gemini.dictionary)
     
